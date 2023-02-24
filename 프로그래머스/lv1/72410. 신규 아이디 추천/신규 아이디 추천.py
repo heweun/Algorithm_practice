@@ -34,10 +34,7 @@ def solution(new_id):
         answer = answer[:-1]
     
     #8. 2자 이하면->마지막 문자 반복해서 3자까지 만들기
-    if len(answer)<=2:
-        while True:
-            answer += answer[-1]
-            if len(answer)>=3:
-                break
+    while len(answer)<3:
+        answer += answer[-1]
         
     return answer
