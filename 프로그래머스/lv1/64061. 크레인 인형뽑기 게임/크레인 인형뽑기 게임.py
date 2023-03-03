@@ -1,16 +1,16 @@
 def solution(board, moves):
     answer = 0
-    bucket = []
+    item_list = []
     
     for move in moves:
-        for line in board:
-            if line[move-1] != 0:
-                bucket.append(line[move-1])
-                line[move-1] = 0
+        for i in board:
+            if i[move-1] != 0:
+                item_list.append(i[move-1])
+                i[move-1] = 0
                 break
-
-        if len(bucket) >= 2 and bucket[-1] == bucket[-2]:
-            answer += 2
-            bucket = bucket[:-2]
-            
+                
+        if len(item_list)>=2:
+            if item_list[-1]==item_list[-2]:
+                answer += 2
+                item_list = item_list[:-2]
     return answer
