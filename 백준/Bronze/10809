@@ -1,0 +1,6 @@
+word = input()
+
+alpha = [i for i in range(97,123)]
+
+for x in alpha:
+  print(word.find(chr(x)),end = ' ')
