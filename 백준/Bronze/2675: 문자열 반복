@@ -1,0 +1,10 @@
+#입력받은 문자열을 분리해서 새로운문자열 제작
+#print()를 for문 하나 밖에서 실행하면 줄넘김이 발생한다.
+
+num = int(input())
+
+for i in range(num):
+  re, word = input().split()
+  for w in word:
+    print(w*int(re), end='')
+  print() #줄넘김 결과값이 겹쳐지는것을 막는다.
