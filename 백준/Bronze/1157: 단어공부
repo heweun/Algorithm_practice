@@ -1,0 +1,10 @@
+#대소문자 섞인 문자를 대문자로 만들고 최대 개수 가진 대문자 출력
+#최대 개수 대문자가 중복되면 "?"출력
+#딕셔너리에서 value값이 최대인 key값 찾아서 리스트로 만들기
+## max_key = [k for k,v in dic.items() if max(dic.values())==v]
+
+word = input().upper()
+dic = {i:word.count(i) for i in set(word)}
+
+max_key = [k for k,v in dic.items() if max(dic.values())==v]
+print("?") if len(max_key)>=2 else print(max_key[0])
