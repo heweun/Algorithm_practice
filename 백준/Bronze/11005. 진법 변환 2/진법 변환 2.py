@@ -1,9 +1,9 @@
-system = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" #10진법이면 9 까지, 36진법이면 Z까지 표현된다
-N, B = map(int, input().split())
+number, zinsu = map(int, input().split())
 answer = ''
+sample = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-while N != 0:
-    answer += str(system[N % B]) #위치로 진법 변환
-    N = N//B
-    
+while number>0:
+  answer += str(sample[number%zinsu])
+  number = number//zinsu
+
 print(answer[::-1])
