@@ -1,55 +1,50 @@
 from collections import deque
 
-def bfs(start, end, maps):
-	# 탐색할 방향
-    dy = [0, 1, -1, 0]
-    dx = [1, 0, 0, -1]
-    
-    n = len(maps)       # 세로
-    m = len(maps[0])    # 가로
-    visited = [[False]*m for _ in range(n)]
-    que = deque()
-    flag = False
-    
-    # 초깃값 설정
-    for i in range(n):
-        for j in range(m):
-        	# 출발하고자 하는 지점이라면 시작점의 좌표를 기록함
-            if maps[i][j] == start:      
-                que.append((i, j, 0))    
-                # 별도의 cost 리스트를 만들지 않고 que에 바로 기록(0)
-                visited[i][j] = True
-                flag = True; break 
-                # 시작 지점은 한 개만 존재하기 때문에 찾으면 바로 나옴
-        if flag: break
-                
-    # BFS 알고리즘 수행 (핵심)
-    while que:
-        y, x, cost = que.popleft()
-        
-        if maps[y][x] == end:
-            return cost
-        
-        for i in range(4):
-            ny = y + dy[i]
-            nx = x + dx[i]
-            
-            # maps 범위내에서 벽이 아니라면 지나갈 수 있음
-            if 0<= ny <n and 0<= nx <m and maps[ny][nx] !='X':
-                if not visited[ny][nx]:	# 아직 방문하지 않는 통로라면
-                    que.append((ny, nx, cost+1))
-                    visited[ny][nx] = True
-                    
-    return -1	# 탈출할 수 없다면
-        
-            
+def get_cnt(maps,start,end):
+    """ 입력받은 시작점부터 문자까지의 최소거리와 문자위치 계산 함수 """
+    r,c = start # 시작위치
+    R,C = len(maps),len(maps[0]) # 맵크기
+
+    # BFS
+    visited = set()
+    q = deque([(r,c,0)])
+    directions = ((1,0),(0,1),(-1,0),(0,-1))
+
+    while q:
+        now_r,now_c,cnt = q.popleft()
+        if (now_r,now_c) in visited: # 방문했다면 패스
+            continue
+        else: # 그렇지 않다면 추가
+            visited.add((now_r,now_c))
+            if maps[now_r][now_c] == "X": # 현 문자가 X면 패스
+                continue
+            elif (now_r,now_c) == end: # 도착점이면 현위치,거리 리턴
+                return cnt
+            else: # 아니라면 네 방향중 맵 크기 안쪽 위치를 deque에 추가
+                for dr,dc in directions:
+                    next_r,next_c = now_r+dr,now_c+dc
+                    if 0<=next_r<R and 0<=next_c<C:
+                        q.append((next_r,next_c,cnt+1))
+
+    return -1 # 문자에 접근 불가능한 경우
+
+
 def solution(maps):
-    path1 = bfs('S', 'L', maps)	# 시작 지점 --> 레버
-    path2 = bfs('L', 'E', maps) # 레버 --> 출구
-    
-    # 둘다 -1 이 아니라면 탈출할 수 있음
-    if path1 != -1 and path2 != -1:
-        return path1 + path2
-        
-   	# 둘중 하나라도 -1 이면 탈출할 수 없음
-    return -1
+    S_pos,L_pos,E_pos = None,None,None
+    # S,L,E의 위치 찾기
+    for i,row in enumerate(maps):
+        if "S" in row:
+            S_pos = (i,row.find("S"))
+        if "L" in row:
+            L_pos = (i,row.find("L"))
+        if "E" in row:
+            E_pos = (i,row.find("E"))
+
+    # 시작점~레버의 거리 계산
+    lever_cnt = get_cnt(maps,start=S_pos,end=L_pos)
+    if lever_cnt == -1:
+        return -1
+
+    # 레버위치~출구 거리 계산
+    exit_cnt = get_cnt(maps,start=L_pos,end=E_pos)
+    return exit_cnt+lever_cnt if exit_cnt != -1 else -1
