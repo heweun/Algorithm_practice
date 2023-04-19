@@ -1,49 +1,40 @@
 from collections import deque
+n, m, v = map(int, input().split())
 
-def DFS(graph, root):
-    visited = []
-    stack = [root]
+graph = [[0] * (n + 1) for _ in range(n + 1)] 
+visit_list = [0] * (n + 1)
+visit_list2 = [0] * (n + 1)
 
-    while stack:
-        n = stack.pop()
-        if n not in visited:
-            visited.append(n)
-            if n in graph:
-                temp = list(set(graph[n]) - set(visited))
-                temp.sort(reverse=True)
-                stack += temp
-    return " ".join(str(i) for i in visited)
+# print("graph",graph)
+# print("visit_list",visit_list)
+# print("visit_list2",visit_list2)
 
-def BFS(graph, root):
-    visited = []
-    queue = deque([root])
+for _ in range(m):
+  a, b = map(int, input().split())
+  graph[a][b] = graph[b][a] = 1
+  # print("a:",a,"b:",b)
+  # print("graph:",graph)
 
-    while queue:
-        n = queue.popleft()
-        if n not in visited:
-            visited.append(n)
-            if n in graph:
-                temp = list(set(graph[n]) - set(visited))
-                temp.sort()
-                queue += temp
-    return " ".join(str(i) for i in visited)
+def dfs(v):
+  visit_list2[v] = 1
+  print(v, end =' ')
+  for i in range(1,n+1):
+    if visit_list2[i] == 0 and graph[v][i] == 1:
+      dfs(i)
 
-  
-graph = {}
-n = input().split(' ')
-node, edge, start = [int(i) for i in n]
-for i in range(edge):
-    edge_info = input().split(' ')
-    n1, n2 = [int(j) for j in edge_info]
-    if n1 not in graph:
-        graph[n1] = [n2]
-    elif n2 not in graph[n1]:
-        graph[n1].append(n2)
 
-    if n2 not in graph:
-        graph[n2] = [n1]
-    elif n1 not in graph[n2]:
-        graph[n2].append(n1)
+def bfs(v):
+  q = deque()
+  q.append(v)
+  visit_list[v] = 1
+  while q:
+    v = q.popleft()
+    print(v, end = ' ')
+    for i in range(1,n+1):
+      if visit_list[i] == 0 and graph[v][i] == 1:
+        q.append(i)
+        visit_list[i] = 1
 
-print(DFS(graph, start))
-print(BFS(graph, start))
+dfs(v)
+print()
+bfs(v)
