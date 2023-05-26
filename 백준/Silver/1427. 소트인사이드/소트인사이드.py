@@ -1,1 +1,1 @@
-print("".join(sorted(input(),reverse=True)))
+print(*sorted(input(),reverse=True), sep = '')
