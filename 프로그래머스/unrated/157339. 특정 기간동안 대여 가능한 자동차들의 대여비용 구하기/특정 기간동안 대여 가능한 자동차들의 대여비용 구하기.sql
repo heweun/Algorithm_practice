@@ -1,0 +1,29 @@
+-- 코드를 입력하세요
+#CAR_RENTAL_COMPANY_CAR : 대여중인차
+ #CAR_ID / CAR_TYPE / DAILY_FEE / OPTIONS 
+ 
+#CAR_RENTAL_COMPANY_RENTAL_HISTORY : 대여 기록
+ #HISTORY_ID / CAR_ID / START_DATE / END_DATE
+ 
+#CAR_RENTAL_COMPANY_DISCOUNT_PLAN : 종류별 대여 기간, 종류별 할인 정책
+ #PLAN_ID / CAR_TYPE / DURATION_TYPE / DISCOUNT_RATE 
+
+#자동차 종류 세단|suv
+#2022.11.01~2022.11.30
+#30일간 대여 금액 50~200
+#SELECT CAR_ID, CAR_TYPE, FEE #계산 필요
+select distinct A.CAR_ID, A.CAR_TYPE, 
+       round(A.daily_fee*(1-C.discount_rate*0.01)*30) as FEE
+from CAR_RENTAL_COMPANY_CAR A
+join CAR_RENTAL_COMPANY_RENTAL_HISTORY B on A.CAR_ID = B.CAR_ID
+join CAR_RENTAL_COMPANY_DISCOUNT_PLAN C on A.CAR_TYPE = C.CAR_TYPE
+
+where C.duration_type like '30%' 
+and A.daily_fee*(1-C.discount_rate*0.01)*30 between 500000 and 2000000
+and A.CAR_TYPE in('세단','suv')
+AND (A.CAR_ID NOT IN (
+    SELECT CAR_ID
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE '2022-11' BETWEEN DATE_FORMAT(START_DATE, '%Y-%m') AND DATE_FORMAT(END_DATE, '%Y-%m')))
+
+order by FEE desc, CAR_TYPE, CAR_ID desc
