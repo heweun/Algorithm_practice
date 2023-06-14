@@ -1,5 +1,5 @@
-N,M,*n_list = open(0).read().split()
+N,_,*n_list = open(0).read().split()
 
-print(len(set(n_list[:int(N)])&set(n_list[int(N):])),
-      *sorted(set(n_list[:int(N)])&set(n_list[int(N):])),
-      sep = '\n')
+answer = set(n_list[:int(N)])&set(n_list[int(N):])
+
+print(len(answer), *sorted(answer), sep = '\n')
