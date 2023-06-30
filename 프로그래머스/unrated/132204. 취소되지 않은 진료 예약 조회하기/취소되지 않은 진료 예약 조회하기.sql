@@ -9,5 +9,6 @@ join DOCTOR C on A.MDDR_ID = C.DR_ID
 
 where date_format(APNT_YMD,'%Y-%m-%d') = '2022-04-13'
 and APNT_CNCL_YN != "Y"
+and A.MCDP_CD = 'CS'
 
 order by APNT_YMD
