@@ -1,7 +1,6 @@
 n, *n_list = map(int, open(0).read().split())
 
 cnt = 1
-case = True
 stack = []
 answer = []
 
@@ -11,14 +10,12 @@ for i in n_list:
         answer.append('+')
         cnt += 1
 
-    if stack[-1] == i:
-        stack.pop()
-        answer.append('-')
-    else:
-        case = False
+    if stack.pop() != i:
+        answer = 'NO'
         break
-
-if case == False:
-    print('NO')
+    else:
+        answer.append('-')
 else:
-    print(*answer, sep='\n')
+    answer = '\n'.join(answer)
+
+print(answer)
