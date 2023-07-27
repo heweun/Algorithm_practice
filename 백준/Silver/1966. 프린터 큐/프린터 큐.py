@@ -1,24 +1,27 @@
 from collections import deque
 import sys
+input = sys.stdin.readline
 
 t = int(input())
 
 for i in range(t):
     n, m = map(int, input().split())
-    queue = deque(list(map(int, sys.stdin.readline().split())))
+    queue = deque(list(map(int, input().split())))
     count = 0
     while queue:
-        best = max(queue)  #현재의 최댓값이 가장 먼저 배출되므로 최댓값을 저장
-        front = queue.popleft() # 큐의 front를 뽑았으므로
-        m -= 1 # 내 위치가 한 칸 당겨진다.
+        #print(f'queue:{queue}, count:{count}, m:{m}')
 
-        if best == front: # 뽑은 숫자가 제일 큰 숫자일 때
-            count += 1 # 하나가 영원히 배출되므로 순번 하나 추가
-            if m < 0: # m이 0이라는 것은 뽑은 숫자가 내 숫자라는 뜻.
+        if max(queue) == queue[0]: # 맨앞 숫자가 가장클때
+            queue.popleft() #하나 출력
+            count += 1 # 하나가 영원히 배출되므로 순번은 하나 추가
+            m -= 1 #순서는 하나 앞으로
+
+            if m < 0: # m이 0이면 -> m이 queue의 최대값이 됨
                 print(count)
-                break
+                break #종료
 
-        else:   # 뽑은 숫자가 제일 큰 숫자가 아니면
-            queue.append(front) # 제일 뒤로 밀려나게 됨
-            if m < 0 :  # 제일 앞에서 뽑히면
-                m = len(queue) - 1 # 제일 뒤로 이동
+        else:   # 첫번째가 가장 크지 않으면
+            queue.rotate(-1) # 순서 바꿔주고
+            m -= 1 #내 위치는 당겨오기
+            if m<0: #만약에 맨 앞에 있는데 최대값이 아니면
+              m = len(queue)-1 #맨 뒤 순서로 바뀜
