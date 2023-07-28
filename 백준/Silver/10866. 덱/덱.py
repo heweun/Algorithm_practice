@@ -13,29 +13,29 @@ for _ in range(n):
   elif a[0] == 'push_back':
     dq.append(a[1])
   elif a[0] == 'pop_front':
-    if len(dq) == 0:
-      print(-1)
-    else:
+    if dq:
       print(dq.popleft())
-  elif a[0] == 'pop_back':
-    if len(dq) == 0:
-      print(-1)
     else:
+      print(-1)
+  elif a[0] == 'pop_back':
+    if dq:
       print(dq.pop())
+    else:
+      print(-1)
   elif a[0] == 'size':
     print(len(dq))
   elif a[0] == 'empty':
-    if len(dq) == 0:
-      print(1)
-    else:
+    if dq:
       print(0)
+    else:
+      print(1)
   elif a[0] == 'front':
-    if len(dq) == 0:
-      print(-1)
-    else:
+    if dq:
       print(dq[0])
-  else:
-    if len(dq) == 0:
-      print(-1)
     else:
+      print(-1)
+  else:
+    if dq:
       print(dq[-1])
+    else:
+      print(-1)
