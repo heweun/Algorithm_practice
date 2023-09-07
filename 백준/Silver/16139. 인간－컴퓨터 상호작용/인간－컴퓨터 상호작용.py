@@ -1,6 +1,4 @@
-import sys
-
-word, _, *n_list = (i.split() for i in sys.stdin.readlines())
+word, _, *n_list = (i.split() for i in open(0))
 
 word = ''.join(word)
 s_word = set(word)  # set으로 중복값 제거
