@@ -1,11 +1,3 @@
--- 코드를 입력하세요
-#CAR_RENTAL_COMPANY_CAR 대여 중인 자동차들의 정보
- #자동차 ID, 자동차 종류, 일일 대여 요금, 자동차 옵션 
-#CAR_RENTAL_COMPANY_RENTAL_HISTORY 자동차 대여 기록 정보
- #자동차 대여 기록ID, 자동차ID, 대여 시작일, 대여 종료일
-#CAR_RENTAL_COMPANY_DISCOUNT_PLAN 자동차 종류 별 대여 기간 종류 별 할인 정책
- #요금할인 정책ID, 자동차 종류, 대여 기간 종류, 할인율(7일 이상|30일 이상|90일 이상 만)
- 
 WITH value AS (
     SELECT car.daily_fee, car.car_type, his.history_id,
            DATEDIFF(end_date, start_date) + 1 AS period,
