@@ -1,24 +1,37 @@
+import sys
 from collections import deque
+sys.setrecursionlimit(10**6) #재귀의 깊이 제한하기
 
-n = int(input())
-m = int(input())
+n,_,*n_list=([*map(int,i.split())]for i in open(0))
 
-graph = [[0]*(n+1) for _ in range(n+1)]
-visited = [0]*(n+1)
+r = 1
+graph = [[]for _ in range(n[0]+1)]
+visited = [0]*(n[0]+1)
+answer = 0
 
-for _ in range(m):
-  a,b = map(int, input().split())
-  graph[a][b] = graph[b][a] = 1
+#데이터 넣어두기
+for n in n_list:
+  graph[n[0]].append(n[1])
+  graph[n[1]].append(n[0])
 
-v = 1
-q = deque()
-q.append(v)
+#print(f'graph:{graph}')
+#bfs
+c = 1
+def bfs(visited,graph,r):
+  global c,answer
+  visited[r] = c
+  que = deque([r])
+  while que:
+    #print(f'que:{que}')
+    answer += 1
+    u = que.popleft() #맨 앞 요소 삭제
+    for x in graph[u]: #빼낸 요소 주변 확인
+      if visited[x] == 0: #방문 안했으면
+        que.append(x)
+        c += 1
+        visited[x] = c
 
-while q:
-  v = q.popleft()
-  for i in range(1,n+1):
-    if visited[i] == 0 and graph[v][i] == 1:
-      q.append(i)
-      visited[i] = 1
 
-print(visited.count(1)-1)
+bfs(visited,graph,r)
+
+print(answer-1)
