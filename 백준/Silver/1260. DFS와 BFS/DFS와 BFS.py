@@ -1,40 +1,48 @@
+import sys
 from collections import deque
-n, m, v = map(int, input().split())
+sys.setrecursionlimit(10**6) #재귀의 깊이 제한하기
 
-graph = [[0] * (n + 1) for _ in range(n + 1)] 
-visit_list = [0] * (n + 1)
-visit_list2 = [0] * (n + 1)
+N, *n_list=([*map(int,i.split())]for i in open(0))
 
-# print("graph",graph)
-# print("visit_list",visit_list)
-# print("visit_list2",visit_list2)
+n = N[0]; r= N[2]
+graph = [[]for _ in range(n+1)]
+visited_dfs = [0]*(n+1)
+visited_bfs = [0]*(n+1)
+c = 1
 
-for _ in range(m):
-  a, b = map(int, input().split())
-  graph[a][b] = graph[b][a] = 1
-  # print("a:",a,"b:",b)
-  # print("graph:",graph)
+#데이터 넣어두기
+for n in n_list:
+  graph[n[0]].append(n[1])
+  graph[n[1]].append(n[0])
+#print(f'graph:{graph}')
 
-def dfs(v):
-  visit_list2[v] = 1
-  print(v, end =' ')
-  for i in range(1,n+1):
-    if visit_list2[i] == 0 and graph[v][i] == 1:
-      dfs(i)
+#정렬하기
+graph = [sorted(g) for g in graph]
 
+#bfs
+def bfs(visited_bfs,graph,r):
+  global c
+  visited_bfs[r] = c
+  que = deque([r])
+  while que:
+    u = que.popleft() #맨 앞 요소 삭제
+    print(u, end=' ')
+    for x in graph[u]: #빼낸 요소 주변 확인
+      if visited_bfs[x] == 0: #방문 안했으면
+        que.append(x)
+        c += 1
+        visited_bfs[x] = c
 
-def bfs(v):
-  q = deque()
-  q.append(v)
-  visit_list[v] = 1
-  while q:
-    v = q.popleft()
-    print(v, end = ' ')
-    for i in range(1,n+1):
-      if visit_list[i] == 0 and graph[v][i] == 1:
-        q.append(i)
-        visit_list[i] = 1
+#dfs
+def dfs(visited_dfs,graph,r):
+  global c
+  visited_dfs[r] = c
+  print(r, end=' ')
+  for x in graph[r]: #빼낸 요소 주변 확인
+    if visited_dfs[x] == 0: #방문 안했으면
+      c += 1
+      dfs(visited_dfs,graph,x)
 
-dfs(v)
+dfs(visited_dfs,graph,r)
 print()
-bfs(v)
+bfs(visited_bfs,graph,r)
