@@ -1,0 +1,11 @@
+def solution(s):
+    answer = []
+    re_zero = 0 #제거할 0의 개수
+    re_cnt = 0 #몇번 반복했는지 
+    
+    while len(s)>1:
+        # print(f's:{s}')
+        re_zero += s.count('0')
+        s = bin(len(s)-s.count('0'))[2:]
+        re_cnt += 1
+    return [re_cnt,re_zero]
