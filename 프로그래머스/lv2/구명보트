@@ -1,0 +1,13 @@
+def solution(people, limit):    
+    people.sort() #무거운 사람+가벼운 사람 확률이 높음
+    answer = 0    
+    
+    start, end = 0,len(people)-1
+    while start<=end:
+        #print(f'people[start]:{people[start]}, people[end]:{people[end]}')
+        if people[start]+people[end]<=limit:
+            start += 1
+        end -= 1
+        answer += 1
+    return answer
+    
