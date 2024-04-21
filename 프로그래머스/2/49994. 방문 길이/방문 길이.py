@@ -1,18 +1,16 @@
 def solution(dirs):
     answer = 0
-    sets = set()
-    d_dic = {'U':(0,1), 'D':(0,-1), 'R':(1,0), 'L':(-1,0)}
+    m_dic = {'U':(0,1),'D':(0,-1),'R':(1,0),'L':(-1,0)}
+    h_set = set()
     x,y = 0,0
+    
     for d in dirs:
-        # print(f'd:{d}')
-        dx,dy = d_dic[d]
-        nx = x+dx
-        ny = y+dy
-        # print(f'nx:{nx} ny:{ny}')
+        dx,dy = m_dic[d]
+        nx = x+dx; ny = y+dy
         if -5<=nx<=5 and -5<=ny<=5:
-            sets.add(((x, y), (nx, ny))) #어느 방향에서 움직여도 같으니까 확인해야함
-            sets.add(((nx, ny), (x, y)))
-            x = nx; y = ny
-            # print(f'sets:{sets}')
-        
-    return len(sets)/2
+            h_set.add(((nx,ny),(x,y)))
+            h_set.add(((x,y),(nx,ny)))
+            x,y = nx,ny
+            # print(f'h_set:{h_set} x:{x},y:{y}')
+    
+    return len(h_set)//2
