@@ -1,21 +1,15 @@
-# def zinsu(num,n):
-#     re_answer = ''
-#     while num>0:
-#         num,r = divmod(num,n)
-#         re_answer += str(r)
-#     return re_answer[::-1] 
-        
-
 def solution(numbers):
     answer = []
+    
     for n in numbers:
+        # print(f'n:{n}')
         if n%2 == 0:
             answer.append(n+1)
         else:
-            zin = "0" + bin(n)[2:]
-            zin_list = list(zin)
-            r_start = zin.rfind("0")
-            zin_list[r_start] = "1"; zin_list[r_start+1] = "0";
-            answer.append(int("".join(zin_list),2))
-            
+            zinsu = "0"+bin(n)[2:]
+            zinsu_list = list(zinsu)
+            start = zinsu.rfind("0")
+            zinsu_list[start] = "1"; zinsu_list[start+1] = "0"
+            # print(f'zinsu_list:{"".join(zinsu_list)}')
+            answer.append(int("".join(zinsu_list),2))
     return answer
